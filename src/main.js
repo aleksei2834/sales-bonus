@@ -131,17 +131,9 @@ function analyzeSalesData(data, options) {
     }));
 }
 
-if (typeof require !== 'undefined' && require.main === module) {
-    // Запуск только при ручном запуске файла (node main.js)
-    const result = analyzeSalesData(data, {
-        calculateRevenue: calculateSimpleRevenue,
-        calculateBonus: calculateBonusByProfit
-    });
-    console.log(result);
-}
+const result = analyzeSalesData(data, {
+    calculateRevenue: calculateSimpleRevenue,
+    calculateBonus: calculateBonusByProfit
+});
 
-module.exports = {
-    calculateSimpleRevenue,
-    calculateBonusByProfit,
-    analyzeSalesData
-};
+console.log(result);
