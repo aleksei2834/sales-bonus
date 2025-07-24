@@ -14,7 +14,7 @@ function groupBy(array, keyFn) {
  * @param _product карточка товара
  * @returns {number}
  */
-function calculateSimpleRevenue(purchase) {
+function calculateSimpleRevenue(purchase, _product) {
     const price = purchase.sale_price || 0;
     const quantity = purchase.quantity || 1;
     const discountFactor = 1 - (purchase.discount || 0) / 100;
