@@ -1,3 +1,4 @@
+const data = require('../data/dataset_1.js');
 // Группировка струтуры данных data
 function groupBy(array, keyFn) {
     return array.reduce((acc, item) => {
