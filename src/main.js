@@ -14,7 +14,7 @@ function calculateSimpleRevenue(purchase, _product) {
     const discountFactor = 1 - (purchase.discount || 0) / 100;
     const revenue = price * quantity * discountFactor;
 
-    return +revenue.toFixed(2); // округление 
+    return +revenue; // округление 
 }
 
 /**
@@ -27,10 +27,10 @@ function calculateSimpleRevenue(purchase, _product) {
 function calculateBonusByProfit(index, total, seller) {
     // @TODO: Расчет бонуса от позиции в рейтинге
     const {profit} = seller; 
-    if (index === 0) return 150; // Бонус за 1 место
-    if (index === 1 || index === 2) return 100; // Бонус за 2 и 3 места
+    if (index === 0) return 0.15; // Бонус за 1 место
+    if (index === 1 || index === 2) return 0.1; // Бонус за 2 и 3 места
     if (index === total - 1) return 0; // Бонус за все места кроме последнего
-    return 50; // Бонус за последнее место
+    return 0.05; // Бонус за последнее место
 }
 
 /**
@@ -93,8 +93,7 @@ function analyzeSalesData(data, options) {
                 discount: (item.discount || 0)
             });
 
-            const cost = (product.purchase_price || 0) * quantity;
-
+            const cost = ((product.purchase_price || 0) * quantity);
             seller.profit += revenue - cost;
             totalReceiptRevenue += revenue;
 
@@ -105,7 +104,7 @@ function analyzeSalesData(data, options) {
             seller.products_sold[item.sku] += quantity;
         });
 
-        seller.revenue += totalReceiptRevenue;
+        seller.revenue += record.total_amount;
     });
 
     // Сортировка по прибыли
@@ -114,7 +113,7 @@ function analyzeSalesData(data, options) {
     // Назначение бонусов и топ-10 товаров
     sellerStats.forEach((seller, index) => {
         const bonusPercent = calculateBonus(index, sellerStats.length, seller);
-        seller.bonus = +(seller.profit * bonusPercent).toFixed(2);
+        seller.bonus = +(seller.profit * bonusPercent);
 
         seller.top_products = Object.entries(seller.products_sold)
             .map(([sku, quantity]) => ({ sku, quantity }))
@@ -130,6 +129,6 @@ function analyzeSalesData(data, options) {
         profit: +seller.profit.toFixed(2),
         sales_count: seller.sales_count,
         top_products: seller.top_products,
-        bonus: +(seller.bonus / 1000).toFixed(2)
+        bonus: +seller.bonus.toFixed(2)
     }));
 }
