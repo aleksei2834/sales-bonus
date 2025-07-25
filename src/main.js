@@ -27,10 +27,10 @@ function calculateSimpleRevenue(purchase, _product) {
 function calculateBonusByProfit(index, total, seller) {
     // @TODO: Расчет бонуса от позиции в рейтинге
     const {profit} = seller; 
-    if (index === 0) return 0.15; // Бонус за 1 место
-    if (index === 1 || index === 2) return 0.1; // Бонус за 2 и 3 места
+    if (index === 0) return 150; // Бонус за 1 место
+    if (index === 1 || index === 2) return 100; // Бонус за 2 и 3 места
     if (index === total - 1) return 0; // Бонус за все места кроме последнего
-    return 0.05; // Бонус за последнее место
+    return 50; // Бонус за последнее место
 }
 
 /**
@@ -129,6 +129,6 @@ function analyzeSalesData(data, options) {
         profit: +seller.profit.toFixed(2),
         sales_count: seller.sales_count,
         top_products: seller.top_products,
-        bonus: +seller.bonus.toFixed(2)
+        bonus: +(seller.bonus / 1000).toFixed(2)
     }));
 }
