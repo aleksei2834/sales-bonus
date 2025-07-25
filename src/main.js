@@ -1,13 +1,6 @@
-const data = require('../data/dataset_1.js');
+
 // Группировка струтуры данных data
-function groupBy(array, keyFn) {
-    return array.reduce((acc, item) => {
-        const key = keyFn(item);
-        if (!acc[key]) acc[key] = [];
-        acc[key].push(item);
-        return acc;
-    }, {})
-}
+
 
 /**
  * Функция для расчета выручки
@@ -131,10 +124,3 @@ function analyzeSalesData(data, options) {
         bonus: +seller.bonus.toFixed(2)
     }));
 }
-
-const result = analyzeSalesData(data, {
-    calculateRevenue: calculateSimpleRevenue,
-    calculateBonus: calculateBonusByProfit
-});
-
-console.log(result);
