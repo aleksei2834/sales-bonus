@@ -27,10 +27,10 @@ function calculateSimpleRevenue(purchase, _product) {
 function calculateBonusByProfit(index, total, seller) {
     // @TODO: Расчет бонуса от позиции в рейтинге
     const {profit} = seller; 
-    if (index === 0) return 0.15; // Бонус за 1 место
-    if (index === 1 || index === 2) return 0.10; // Бонус за 2 и 3 места
+    if (index === 0) return 150; // Бонус за 1 место
+    if (index === 1 || index === 2) return 100; // Бонус за 2 и 3 места
     if (index === total - 1) return 0; // Бонус за все места кроме последнего
-    return 0.05; // Бонус за последнее место
+    return 50; // Бонус за последнее место
 }
 
 /**
@@ -41,6 +41,15 @@ function calculateBonusByProfit(index, total, seller) {
  */
 function analyzeSalesData(data, options) {
     if (!data || !Array.isArray(data.sellers) || data.sellers.length === 0) {
+        throw new Error('Некорректные входные данные');
+    }
+    if (!data || !Array.isArray(data.products) || data.products.length === 0) {
+        throw new Error('Некорректные входные данные');
+    }
+    if (!data || !Array.isArray(data.customers) || data.customers.length === 0) {
+        throw new Error('Некорректные входные данные');
+    }
+    if (!data || !Array.isArray(data.purchase_records) || data.purchase_records.length === 0) {
         throw new Error('Некорректные входные данные');
     }
 
@@ -121,6 +130,6 @@ function analyzeSalesData(data, options) {
         profit: +seller.profit.toFixed(2),
         sales_count: seller.sales_count,
         top_products: seller.top_products,
-        bonus: +seller.bonus.toFixed(2)
+        bonus: +(seller.bonus / 1000).toFixed(2)
     }));
 }
